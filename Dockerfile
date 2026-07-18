@@ -1,12 +1,13 @@
-FROM ubuntu:22.04
+FROM python:3.12-slim
 
-RUN apt update && \
-    apt install -y procps iproute2 net-tools && \
-    apt clean
+WORKDIR /app
 
-COPY system_info.sh /system_info.sh
+COPY requirements.txt .
 
-RUN chmod +x /system_info.sh
+RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["/system_info.sh"]
+COPY . .
 
+EXPOSE 5000
+
+CMD ["python", "app.py"]
